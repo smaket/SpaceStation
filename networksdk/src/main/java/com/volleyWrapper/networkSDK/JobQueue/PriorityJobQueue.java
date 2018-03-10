@@ -12,7 +12,7 @@ import com.android.volley.toolbox.Volley;
  *
  * @author  Bikash Kumar Mohanty
  * @version 1.0
- * @since   2017-8-1
+ * @since   2018-9-3
  */
 
 public class PriorityJobQueue {

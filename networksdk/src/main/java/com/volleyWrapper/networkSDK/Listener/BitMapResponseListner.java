@@ -8,7 +8,7 @@ import com.android.volley.Response;
 import java.util.Map;
 
 /**
- * Created by Bikash on 1/4/2018.
+ * Created by Bikash on 3/9/2018.
  */
 public class BitMapResponseListner implements Response.Listener<Bitmap> {
     private BitMapListener listener;
