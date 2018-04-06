@@ -18,26 +18,30 @@ import iss.chase.com.ispacestation.view.ILocationChanged;
 
 /**
  * Created by Bikash on 3/9/2018.
+ * Get the GPS Lat long of the current location which will be send it to the server to get the satellite passing information on that current location.
  */
 
 public class GPSManager extends Service implements LocationListener {
 
+    /**
+     * Activity Context to get the current location lat long
+     */
     private final Activity mContext;
 
     // flag for GPS status
-    boolean isGPSEnabled = false;
+    private boolean isGPSEnabled = false;
 
     // flag for network status
-    boolean isNetworkEnabled = false;
-
+    private boolean isNetworkEnabled = false;
+    // GPS Provider details
     private String provider;
 
     // flag for GPS status
-    boolean canGetLocation = false;
+    private boolean canGetLocation = false;
 
-    Location location; // location
-    double latitude; // latitude
-    double longitude; // longitude
+    private Location location; // location
+    private double latitude; // latitude
+    private double longitude; // longitude
 
     // The minimum distance to change Updates in meters . 30 meter to reduce polling to avoid battery drain
     public static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 30; // 30 meters
@@ -51,18 +55,33 @@ public class GPSManager extends Service implements LocationListener {
     private static final int REQUEST_CODE_PERMISSION = 2;
     // Declaring a Location Manager
     protected LocationManager locationManager;
+    /**
+     * Location change Listener
+     */
+    private static  ILocationChanged mLocaChangedListener;
 
-    private static  ILocationChanged mLocaChangedListner;
-    public static void registerListner(ILocationChanged aLocationChanged){
-        mLocaChangedListner = aLocationChanged;
+    /**
+     * Register listener to receive location change updates.
+     * @param aLocationChanged ILocationChanged instance to register to receive the call back.
+     */
+    public static void registerListener(ILocationChanged aLocationChanged){
+        mLocaChangedListener = aLocationChanged;
     }
 
+    /**
+     * GPS manager constructor for object initialization
+     * @param context Activity context to get the location
+     */
     public GPSManager(Activity context) {
         this.mContext = context;
+        //Get the current location
         getLocation();
     }
 
-
+    /**
+     * Return current location details
+     * @return Location current location details e.g. Lat, Long etc.
+     */
     public Location getLocation() {
      /*   if ( Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission( mContext, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
@@ -114,6 +133,9 @@ public class GPSManager extends Service implements LocationListener {
         }
     }
 
+    /**
+     * Resume back gps service if interrupted.
+     */
     public void resumeGpsService() {
         if(locationManager != null) {
             try {
@@ -197,8 +219,8 @@ public class GPSManager extends Service implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
 
-        if(mLocaChangedListner != null) {
-            mLocaChangedListner.onLocationChanged(location);
+        if(mLocaChangedListener != null) {
+            mLocaChangedListener.onLocationChanged(location);
         }
 
 //        Toast.makeText(mContext , "Onlocation Changed called" , Toast.LENGTH_LONG).show();

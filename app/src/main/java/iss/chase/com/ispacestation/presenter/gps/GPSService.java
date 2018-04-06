@@ -110,6 +110,9 @@ public class GPSService extends Service implements GoogleApiClient.ConnectionCal
 
     }
 
+    /**
+     * Initialize location Request.
+     */
     private void initLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(GPSManager.MIN_TIME_BW_UPDATES);
@@ -118,6 +121,9 @@ public class GPSService extends Service implements GoogleApiClient.ConnectionCal
 
     }
 
+    /**
+     * Start Location updates
+     */
     private void startLocationUpdate() {
         initLocationRequest();
 
@@ -134,11 +140,17 @@ public class GPSService extends Service implements GoogleApiClient.ConnectionCal
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
     }
 
+    /**
+     * Stop Location updates
+     */
     public void stopLocationUpdate() {
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
 
     }
 
+    /**
+     * Check for Goole play service Google api client
+     */
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addOnConnectionFailedListener(this)

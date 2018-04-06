@@ -51,7 +51,7 @@ public class ISSFragment extends Fragment implements IISSView , ILocationChanged
     @Override
     public void onResume() {
         super.onResume();
-        GPSManager.registerListner(this);
+        GPSManager.registerListener(this);
         GPSService.registerListner(this);
     }
 

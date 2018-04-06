@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * Created by Bikash on 3/09/2018.
  *
+ *
  */
 
 public class ISSApplication extends Application {
@@ -43,16 +44,33 @@ public class ISSApplication extends Application {
 //        MultiDex.install(this);
     }
 
+    /**
+     * Return Application Context
+     * @return Context Application Context
+     */
     public static Context getAppContext() {
         return mApplicationcontext;
     }
+
+    /**
+     * Set Application Context
+     * @param aCxt  App context
+     */
     public static void setAppContext(Context aCxt) {
         mApplicationcontext = aCxt;
     }
 
+    /**
+     * Kill Application while exiting
+     */
     public static void killApplication() {
         android.os.Process.killProcess(android.os.Process.myPid());
     }
+
+    /**
+     * Return if network is up or down
+     * @return boolean true for network up false for no network.
+     */
     public static boolean isNetworkUp() {
         try{
             NetworkInfo info = ((ConnectivityManager) getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
@@ -67,6 +85,11 @@ public class ISSApplication extends Application {
         return true;
     }
 
+    /**
+     * Return if application is running or not
+     * @param aCxt  Application context
+     * @return bolean true if app is running else false.
+     */
     public static boolean isAppRunning(Context aCxt) {
         ActivityManager activityManager = (ActivityManager) aCxt.getSystemService( ACTIVITY_SERVICE );
         List<ActivityManager.RunningAppProcessInfo> procInfos = activityManager.getRunningAppProcesses();

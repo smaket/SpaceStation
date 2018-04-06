@@ -9,10 +9,10 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import iss.chase.com.ispacestation.application.AppConstant;
 import iss.chase.com.ispacestation.application.ISSApplication;
 import iss.chase.com.ispacestation.model.SpaceStationData;
 import iss.chase.com.ispacestation.presenter.api.IHttpConnection;
-import iss.chase.com.ispacestation.presenter.api.KeyName;
 import iss.chase.com.ispacestation.presenter.api.IResponseCallback;
 import iss.chase.com.ispacestation.view.IISSView;
 
@@ -39,10 +39,10 @@ public class ISSPresenterImp implements IISSPresenter,IResponseCallback  {
     @Override
     public synchronized void getPassTime(Location location , IResponseCallback responseCallback) {
         Log.d(TAG,"getWeatherContent()");
-        GatewayController gatewayController = GatewayController.getInstance(ISSApplication.getAppContext() , responseCallback);
+        NetworkController gatewayController = NetworkController.getInstance(ISSApplication.getAppContext() , responseCallback);
         HashMap<String, String> params = new HashMap<>();
-        params.put(KeyName.LATITUDE , ""+location.getLatitude());
-        params.put(KeyName.LONGITUDE , ""+location.getLongitude());
+        params.put(AppConstant.LATITUDE , ""+location.getLatitude());
+        params.put(AppConstant.LONGITUDE , ""+location.getLongitude());
         gatewayController.processNetworkRequest(IHttpConnection.IResponseObserver.RequestTypeEnum.GET_PASSTIME,params, Request.Priority.IMMEDIATE);
     }
 
@@ -55,18 +55,18 @@ public class ISSPresenterImp implements IISSPresenter,IResponseCallback  {
         switch (aRespType) {
             case GET_CITY_WEATHER_CONDITIONS:
                 switch (status) {
-                    case ResponseCodeConstants.FAILURE_CONNECTION:
+                    case AppConstant.FAILURE_CONNECTION:
                         Log.d(TAG, "GET_CITY_WEATHER_CONDITIONS responseReceived()-->FAILURE_CONNECTION");
 //                        break;
-                    case ResponseCodeConstants.INTERNAL_SERVER_ERROR:
-                    case ResponseCodeConstants.FORBIDDEN:
+                    case AppConstant.INTERNAL_SERVER_ERROR:
+                    case AppConstant.FORBIDDEN:
                         Log.d(TAG, "GET_CITY_WEATHER_CONDITIONS responseReceived()-->INTERNAL_SERVER_ERROR");
 //                        break;
-                    case ResponseCodeConstants.UNAUTHORIZED:
+                    case AppConstant.UNAUTHORIZED:
                         Log.d(TAG, "AuthRequestCheck responseReceived()-->UNAUTHORIZED");
 //                        break;
-                    case ResponseCodeConstants.SUCCESS_OK:
-                    case ResponseCodeConstants.NOT_MODIFIED:
+                    case AppConstant.SUCCESS_OK:
+                    case AppConstant.NOT_MODIFIED:
                         parseResponse(body,aRespType, requestParams);
                         break;
                     default:
@@ -79,7 +79,7 @@ public class ISSPresenterImp implements IISSPresenter,IResponseCallback  {
                 break;
             case GET_PASSTIME:
                 switch (status) {
-                    case ResponseCodeConstants.SUCCESS_OK:
+                    case AppConstant.SUCCESS_OK:
                         parseResponse(body,aRespType, requestParams);
                         break;
                 }
